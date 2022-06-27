@@ -7,7 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>ejs 엔진</h1>
-    <p>ejs 엔진을 사용해보자</p>
+    <h1><%=title%></h1>
+    <p><%=contents%></p>
+    
+    <h3>과일</h3>
+    <ul>
+        <%for(i=0; i<fruits.length; i++) {%>
+            <li><%=fruits[i]%></li>
+        <%}%>
+    </ul>
+
+    <h3>제품</h3>
+    <ul>
+        <%for(i=0; i<product.length; i++) {%>
+            <li><%=product[i].name%>&nbsp;&nbsp;<%=product[i].price%></li>
+        <%}%>
+    </ul>
 </body>
 </html>
