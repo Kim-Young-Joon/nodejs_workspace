@@ -1,0 +1,40 @@
+1. require() : 외부 모듈을 사용하기 위한 함수 (** import랑 다름)
+let http = require('http'); // http 모듈을 사용하겠다. (http라는 변수로 설정)
+
+2. exports
+사용자가 모듈을 만들고 포함시킬 수도 있다.
+.js 파일에 함수를 통해 원하는 기능을 기술하고, 이를 다른 파일에서 사용하고자 할 때,
+경로를 지정하는 방식을 통해 사용 가능하다.
+    1. 기능을 만들어 모듈화 하기 (외부로 모듈을 노출 시키는 과정)
+        방식 1 : 함수 만들면서 외부로 내보내는 과정도 함께 하고자 할 때
+        exports.abs = function(number) {
+            if(number > 0)
+                return number;
+            else
+                return -number;
+        }
+
+        방식 2 : 함수 미리 만들어 두고, 외부로 내보내고자 할 때 exports.키 = 함수명
+            (키로 지정해둔 이름을 이용하여서 다른 파일에서 해당 함수를 활용한다.)
+        function hello() {
+            return "Hello nodejs";
+        }
+        exports.test = hello;
+        // exports["test2"] = hello;
+
+비동기는 리턴값 의미 없음, 콜백함수 호출
+
+nodejs 프로젝트 하려는 곳에
+	npm init : 프로젝트 관련한 초기 파일 자동으로 만들어줌
+	생성된 package.json은 xml 파일과 유사한 기능
+
+설치한 모듈에 대한 정보는 package.json 파일내 dependencies 내에 저장됨
+
+exports 하는 방법
+
+서버가 오류가 나면 꺼진다. 다시 자동으로 작동시키는 프로그램 (supervisor, nodemon)
+
+=====
+관리자 권한으로 cmd 창 켜서
+nodejs_workspace 폴더 위치로 이동
+npm install ejs
