@@ -1,6 +1,7 @@
 let express = require('express');
 
 let app = express();
+app.use(express.urlencoded({extended:true}));
 
 app.use((request, response) => {
     response.status(404).send("<h1>Error</h1>");
