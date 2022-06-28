@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%for(i = 0; i < boardList.length; i++) {%>
+        <%=boardList[i].id%> &nbsp; &nbsp;
+        <a href="/board/view/<%=boardList[i].id%>"><%=boardList[i].title%></a> &nbsp; &nbsp;
+        <%=boardList[i].writer%> &nbsp; &nbsp;
+        <%=boardList[i].wdate%><br>
+    <%}%><br>
+    <button type="button" id="goDel" style="width: 80px; height: 40px;">글삭튀</button>
+    <button type="button" id="goAdd" style="width: 80px; height: 40px; margin-left: 160px;">글쓰기</button>
+</body>
+</html>
+<script>
+    window.onload = function() {
+        document.getElementById("goAdd").addEventListener("click", () => {
+            location.href="http://127.0.0.1:3000/board/write";
+        });
+
+        document.getElementById("goDel").addEventListener("click", () => {
+            location.href="http://127.0.0.1:3000/board/delete";
+        });
+    }
+</script>

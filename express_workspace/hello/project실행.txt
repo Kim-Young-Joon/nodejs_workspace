@@ -1,0 +1,7 @@
+cmd창 (관리자 권한으로 실행)
+1. 프로젝트 만들고자 하는 폴더로 이동
+2. npm install express-generator -g     : express 모듈 전역으로 설치
+3. express [프로젝트명] --view=ejs      : 프로젝트 생성 (ejs 서버로)
+4. cd [프로젝트명]                      : 프로젝트 폴더로 이동 
+5. npm install                          : 만들어진 package.json 파일을 이용해 설정
+6. set DEBUG=[프로젝트명]:* & npm start  
