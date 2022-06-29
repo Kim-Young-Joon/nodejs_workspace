@@ -1,0 +1,86 @@
+create table board
+(
+    id bigint not null primary key auto_increment, -- 자동증가
+    title varchar(800),     -- 제목
+    writer varchar(100),    -- 작성자 이름
+    contents longtext,      -- longtext : 2G
+    wdate datetime,         -- 날짜와 시간
+    hit int                 -- 조회수 
+);
+
+DBMS 자동증가
+    - 오라클 : 시퀀스
+    - MySQL : auto_increment
+
+쿼리도 표준은 있다. (ANSI 표준)
+DBMS 내 함수는 각자 다르게 만든다.
+
+desc [table명]; : 테이블 구조 확인
+insert into board(title, writer, contents, wdate, hit)
+values ('제목1', '홍길동', '내용1', now(), 0);
+    ** 자동증가 설정해둔 필드는 굳이 넣지 않아도 된다.
+    ** now() : 현재 시간과 날짜를 가져오는 함수
+
++----+-------+--------+----------+---------------------+------+
+| id | title | writer | contents | wdate               | hit  |
++----+-------+--------+----------+---------------------+------+
+|  1 | 제목1 | 홍길동 | 내용1    | 2022-06-29 09:17:32 |    0 |
+|  2 | 제목2 | 임꺽정 | 내용2    | 2022-06-29 09:19:18 |    0 |
+|  3 | 제목3 | 장길산 | 내용3    | 2022-06-29 09:19:18 |    0 |
+|  4 | 제목4 | 장승업 | 내용4    | 2022-06-29 09:19:18 |    0 |
+|  5 | 제목5 | 이장옥 | 내용5    | 2022-06-29 09:19:20 |    0 |
++----+-------+--------+----------+---------------------+------+
+
+--------------------------------------------------------------------
+
+MySQL, 프라미스 기반의 MySQL (콜백을 벗어나기 위해서)
+MySQL은 트랜잭션 처리할 때, 콜백의 지옥에 빠진다.
+npm install mysql
+
+코드 내에 쿼리 작성시 세미콜론은 작성하지 않는다.
+
+콜백함수 외부에 특정 기능이 있다면, 논리적으로 생각한 흐름과 실제로 수행되는
+순서가 다를 가능성이 있다. 따라서 콜백함수 내에서 생각한 순서대로 코딩
+
+---------------------------------------------------------------------
+
+Nodejs - MySQL
+
+1. DB에서 값 읽어오기
+    1. mysql 모듈 사용 : let mysql = require('mysql');
+    2. pool 만들기 : let pool = mysql.createPool({설정값 넣기(JSON 형태로)});
+        connectionLimit, host, user, password, database, port 등의 정보를 기술
+        ex) let pool = mysql.createPool({
+                connectionLimit:10,
+                host:"127.0.0.1",
+                user:"root",
+                password:"1234",
+                database:"mydb",
+                port:3306
+            });
+    3. 연결하기 : pool.getConnection(function(err, connection) {});
+        3-1. 원하는 결과를 받아오는 쿼리문 작성
+        3-2. connection을 통해 실제 데이터베이스에서 작성한 쿼리문을 이용해 값 가져오기
+            // 받아온 데이터는 rows에 저장 (console.log 를 이용해 확인해보자)
+        3-3. 연결 끊기
+        ex) pool.getConnection((err, conn) => {
+                sql = `select * from test`; // 원하는 쿼리문 작성
+                conn.query(sql, (err, rows) => {
+                    // 쿼리문의 결과가 rows에 저장
+                    // 오류가 발생할 경우 err
+                    if(err) {
+                        console.log(err);
+                    }
+                    res.render('./board/board_list', {boardList: rows});
+                    conn.release();
+                });
+            });
+
+2. DB에 값 저장하기
+    ** HTML form 태그 이용해서 보내기
+
+---------------------------------------------------------------------
+
+** ejs 파일에 DB 데이터를 이용해서 정보를 쓰는 중에 저장되어 있는 데이터 내의 줄바꿈을 그대로 적용하고자 한다면
+    부트스트랩을 사용하는 경우에 style="white-space:pre" 를 넣어주게 되면 가능하다
+
