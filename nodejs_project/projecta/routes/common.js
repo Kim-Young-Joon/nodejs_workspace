@@ -10,5 +10,23 @@ let pool = mysql.createPool({
     port:3306
 });
 
+// async function executeDB(sql, params) {
+//     let promise = new Promise((resolve, reject) => {
+//         pool.getConnection((err, conn) => {
+//             conn.query(sql, params, (err, rows) => {
+//                 if(err)
+//                     reject(err);
+//                 else
+//                     resolve(rows);
+//                 conn.release();
+//             });
+//         });
+//     });
+
+//     await promise; // promise 가 끝나기를 기다리다가
+//     return promise; // 종료하면 promise를 반환
+// }
+
 // 외부로 pool 객체를 노출시킴
 exports.pool = pool;
+// exports.executeDB = executeDB;
