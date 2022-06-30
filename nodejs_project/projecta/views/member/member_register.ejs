@@ -99,21 +99,30 @@
 
     $("#idCheck").click(() => {
       let id = $("#userid").val();
+      console.log(id);
+      if($("#userid").val().trim() == "") {
+        $("#idResult").html("아이디를 입력하세요");
+        $("#userid").focus();
+        return false;
+      }
+
       $.ajax({
-        url:"/member/idCheck",
+        url:"/member/duplicate",
         method: "post",
-        data: id,
+        data: {"userid":$("#userid").val()},
         dataType: "json"
       })
       .done((result) => {
         if(result.result == "success") {
-          // $("#userid").val(id);
           $("#idResult").html("사용 가능한 ID");
         } else {
           $("#idResult").html("중복된 ID");
         }
       })
-      .fail()
+      .fail((err) => {
+        console.log("에러로 온다.");
+        console.log(err);
+      })
     })
 
   })

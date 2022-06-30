@@ -70,24 +70,18 @@ router.post('/register', (req, res) => {
   })
 });
 
-router.post('/idCheck', (req, res) => {
+router.post("/duplicate", (req, res) => {
   let userid = req.body.userid;
-
-  let sql = `select * from member where userid= ?`
-  let params = [userid];
-
-  common.executeDB(sql, params)
-  .then( (result) =>{
-    if(result.length == 0)
+  let sql = `select count(*) cnt from member where userid = '${userid}'`;
+  common.executeDB(sql)
+  .then((result) => {
+    console.log(sql);
+    if(result[0]["cnt"] == 0) {
       res.send({result:"success"});
-    else if(result.length == 1)
+    } else {
       res.send({result:"fail"});
-    else
-      res.write("ㄷㄷ");
-  })
-  .catch( (err)=>{
-    res.send({result:"fail"});
-  })
-});
+    }
+  });
+})
 
 module.exports = router;
