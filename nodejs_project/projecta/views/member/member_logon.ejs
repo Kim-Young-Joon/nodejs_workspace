@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>로그인</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+  
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="/sms/list">게시판</a>
+    </li>
+     <li class="nav-item">
+      <a class="nav-link" href="">상품</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="">Logout</a>
+    </li>
+    </ul>
+</nav>
+
+<div class="container mt-3">
+  <h1>로그인</h1>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="아이디" id="userid">
+  </div>
+
+  <div class="input-group mb-3">
+    <input type="password" class="form-control" placeholder="패스워드" id="password">
+  </div>
+
+
+  
+  	<div class="container" style="text-align:right">
+	 
+	  <div class="btn-group">
+	    
+       <button type="button" class="btn btn-primary" id="btnLogon">로그온</button>&nbsp;&nbsp;
+      
+	    <button type="button" class="btn btn-primary" id="btnCancel">취소</button>&nbsp;&nbsp;
+	  </div>
+	</div>
+</form>	
+</div>
+
+</body>
+</html>
+
+<script>
+  $(() => {
+    $("#btnLogon").click(() => {
+      let params = {"userid": $("#userid").val(), "password": $("#password").val()};
+      $.ajax({
+        url: "/member/logon",
+        method:"POST",
+        data: params,
+        datatType: "json" // 받는걸 json으로 받겠다
+      })
+      .done((res) => {
+        if(res.result == "1") {
+          alert("로그온 성공");
+          location.href = "/"; // 메인 페이지로 이동하기
+        } else if(res.result == "2") {
+          alert("패스워드가 일치하지 않습니다.");
+        } else {
+          alert("아이디를 찾을 수 없습니다.");
+        }
+      })
+      .fail((jqXHR, status) => {
+        console.log(status);
+      });
+    });
+  })
+</script>
